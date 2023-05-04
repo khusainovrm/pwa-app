@@ -13,6 +13,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
   manifest: {
     name: 'PWA App',
     short_name: 'PWA App',
+    description: 'My Awesome PWA App description',
     theme_color: '#ffffff',
     icons: [
       {
@@ -39,7 +40,11 @@ const pwaOptions: Partial<VitePWAOptions> = {
     type: 'module',
     navigateFallback: 'index.html'
   },
-  registerType: 'autoUpdate'
+  registerType: 'autoUpdate',
+  workbox: {
+    globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+    sourcemap: true
+  }
 }
 
 // https://vitejs.dev/config/
