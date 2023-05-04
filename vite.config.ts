@@ -38,7 +38,8 @@ const pwaOptions: Partial<VitePWAOptions> = {
     /* when using generateSW the PWA plugin will switch to classic */
     type: 'module',
     navigateFallback: 'index.html'
-  }
+  },
+  registerType: 'autoUpdate'
 }
 
 // https://vitejs.dev/config/
