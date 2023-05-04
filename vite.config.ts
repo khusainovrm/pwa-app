@@ -1,10 +1,10 @@
 import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 import type { VitePWAOptions } from 'vite-plugin-pwa'
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
+import replace from '@rollup/plugin-replace'
 
 const pwaOptions: Partial<VitePWAOptions> = {
   mode: 'development',
@@ -47,6 +47,14 @@ const pwaOptions: Partial<VitePWAOptions> = {
   }
 }
 
+const replaceOptions = { __DATE__: new Date().toISOString() }
+
+const reload = process.env.RELOAD_SW === 'true'
+if (reload) {
+  // @ts-expect-error overrides
+  replaceOptions.__RELOAD_SW__ = 'true'
+}
+
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
@@ -57,7 +65,8 @@ export default defineConfig({
       template: { transformAssetUrls }
     }),
     quasar(),
-    VitePWA(pwaOptions)
+    VitePWA(pwaOptions),
+    replace(replaceOptions)
   ],
   resolve: {
     alias: {
