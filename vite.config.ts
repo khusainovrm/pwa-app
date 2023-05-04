@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 import type { VitePWAOptions } from 'vite-plugin-pwa'
+import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 
 const pwaOptions: Partial<VitePWAOptions> = {
   mode: 'development',
@@ -12,7 +13,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
   manifest: {
     name: 'PWA App',
     short_name: 'PWA App',
-    theme_color: '#000000',
+    theme_color: '#ffffff',
     icons: [
       {
         src: 'pwa-192x192.png', // <== don't add slash, for testing
@@ -45,7 +46,13 @@ export default defineConfig({
   server: {
     host: true
   },
-  plugins: [vue(), VitePWA(pwaOptions)],
+  plugins: [
+    vue({
+      template: { transformAssetUrls }
+    }),
+    quasar(),
+    VitePWA(pwaOptions)
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
