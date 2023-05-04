@@ -12,7 +12,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
   manifest: {
     name: 'PWA App',
     short_name: 'PWA App',
-    theme_color: '#ffffff',
+    theme_color: '#000000',
     icons: [
       {
         src: 'pwa-192x192.png', // <== don't add slash, for testing
@@ -33,7 +33,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
     ]
   },
   devOptions: {
-    enabled: process.env.SW_DEV === 'true',
+    enabled: true,
     /* when using generateSW the PWA plugin will switch to classic */
     type: 'module',
     navigateFallback: 'index.html'
@@ -42,6 +42,9 @@ const pwaOptions: Partial<VitePWAOptions> = {
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    host: true
+  },
   plugins: [vue(), VitePWA(pwaOptions)],
   resolve: {
     alias: {
