@@ -62,7 +62,8 @@ const pwaOptions: Partial<VitePWAOptions> = {
         urlPattern: '/',
         handler: 'NetworkFirst'
       }
-    ]
+    ],
+    cleanupOutdatedCaches: false
   }
 }
 
