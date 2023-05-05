@@ -4,7 +4,7 @@
 
     <PhotosList />
 
-    <div class="q-mt-md">new content</div>
+    <div class="q-mt-md">new content #1</div>
   </main>
 </template>
 
