@@ -45,7 +45,15 @@ const pwaOptions: Partial<VitePWAOptions> = {
   registerType: 'autoUpdate',
   workbox: {
     globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
-    sourcemap: true
+    sourcemap: true,
+    runtimeCaching: [
+      {
+        urlPattern: ({ url }) => {
+          return url.pathname.startsWith('/photos')
+        },
+        handler: 'NetworkFirst'
+      }
+    ]
   }
 }
 
