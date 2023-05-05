@@ -66,7 +66,14 @@ const pwaOptions: Partial<VitePWAOptions> = {
   }
 }
 
-const replaceOptions: RollupReplaceOptions = { preventAssignment: true , __BUILD_DATA__ : new Date().toISOString() }
+const replaceOptions: RollupReplaceOptions = {
+  preventAssignment: true,
+  __BUILD_DATA__: new Date().toLocaleDateString('ru', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  })
+}
 const reload = process.env.RELOAD_SW === 'true'
 if (reload) {
   replaceOptions.__RELOAD_SW__ = 'true'
