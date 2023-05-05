@@ -1,4 +1,8 @@
 <template>
+  <h6 class="q-mt-xs">Statuses:</h6>
+  <p class="q-ma-none">offlineReady - {{ offlineReady }}</p>
+  <p>needRefresh - {{ needRefresh }}</p>
+
   <div v-if="offlineReady || needRefresh" class="pwa-toast" role="alert">
     <div class="message">
       <span v-if="offlineReady"> App ready to work offline </span>
@@ -20,17 +24,16 @@ const reloadSW: any = '__RELOAD_SW__'
 const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
   immediate: true,
   onRegisteredSW(swUrl, r) {
+    console.log('ServiceWorkerRegistration: ', r)
     console.log(`Service Worker at: ${swUrl}`)
     console.log('reloadSW', reloadSW)
     if (reloadSW === 'true') {
       r &&
         setInterval(async () => {
-          // eslint-disable-next-line no-console
           console.log('Checking for sw update')
           await r.update()
         }, 20000 /* 20s for testing purposes */)
     } else {
-      // eslint-disable-next-line no-console
       console.log(`SW Registered: ${r}`)
     }
   }

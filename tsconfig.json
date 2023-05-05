@@ -6,7 +6,8 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "lib": ["ESNext", "DOM", "WebWorker"]
+    "types": ["node", "vite-plugin-pwa/client"],
+    "lib": ["ESNext", "DOM", "WebWorker"],
   },
 
   "references": [

@@ -5,6 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 import type { VitePWAOptions } from 'vite-plugin-pwa'
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 import replace from '@rollup/plugin-replace'
+import type { RollupReplaceOptions } from '@rollup/plugin-replace'
 
 const pwaOptions: Partial<VitePWAOptions> = {
   mode: 'development',
@@ -14,7 +15,8 @@ const pwaOptions: Partial<VitePWAOptions> = {
     name: 'PWA App',
     short_name: 'PWA App',
     description: 'My Awesome PWA App description',
-    theme_color: '#027be3',
+    theme_color: '#7863e5',
+    background_color: '#ffe5e5',
     icons: [
       {
         src: 'pwa-192x192.png', // <== don't add slash, for testing
@@ -47,11 +49,10 @@ const pwaOptions: Partial<VitePWAOptions> = {
   }
 }
 
-const replaceOptions = { __DATE__: new Date().toISOString() }
+const replaceOptions: RollupReplaceOptions = { preventAssignment: true }
 
 const reload = process.env.RELOAD_SW === 'true'
 if (reload) {
-  // @ts-expect-error overrides
   replaceOptions.__RELOAD_SW__ = 'true'
 }
 
