@@ -1,6 +1,6 @@
 <template>
   <main>
-    <h4 class="q-mb-md">Service worker build date: {{ buildDate }}</h4>
+    <h4 class="q-mb-md">~Service worker build date: {{ buildDate }}</h4>
     <PingPongSW class="q-mb-md" />
 
     <PhotosList />

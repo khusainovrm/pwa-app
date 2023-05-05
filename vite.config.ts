@@ -42,7 +42,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
     type: 'module',
     navigateFallback: 'index.html'
   },
-  registerType: 'autoUpdate',
+  registerType: 'prompt',
   workbox: {
     globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
     runtimeCaching: [
@@ -62,8 +62,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
         urlPattern: '/',
         handler: 'NetworkFirst'
       }
-    ],
-    cleanupOutdatedCaches: false
+    ]
   }
 }
 
