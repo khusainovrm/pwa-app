@@ -45,7 +45,6 @@ const pwaOptions: Partial<VitePWAOptions> = {
   registerType: 'autoUpdate',
   workbox: {
     globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
-    sourcemap: true,
     runtimeCaching: [
       {
         urlPattern: ({ url }) => {
@@ -67,8 +66,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
   }
 }
 
-const replaceOptions: RollupReplaceOptions = { preventAssignment: true }
-
+const replaceOptions: RollupReplaceOptions = { preventAssignment: true , __BUILD_DATA__ : new Date().toISOString() }
 const reload = process.env.RELOAD_SW === 'true'
 if (reload) {
   replaceOptions.__RELOAD_SW__ = 'true'
