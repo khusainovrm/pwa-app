@@ -58,6 +58,10 @@ const pwaOptions: Partial<VitePWAOptions> = {
             statuses: [0, 200]
           }
         }
+      },
+      {
+        urlPattern: '/',
+        handler: 'NetworkFirst'
       }
     ]
   }
