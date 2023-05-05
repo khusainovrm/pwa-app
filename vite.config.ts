@@ -49,7 +49,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
     runtimeCaching: [
       {
         urlPattern: ({ url }) => {
-          return url.pathname.startsWith('/photos')
+          return url.pathname.startsWith('/photo')
         },
         handler: 'CacheFirst',
         options: {
