@@ -17,7 +17,7 @@ console.log('pwaInfo', pwaInfo)
 const reloadSW: any = '__RELOAD_SW__'
 
 const { needRefresh, updateServiceWorker } = useRegisterSW({
-  immediate: true,
+  // immediate: true,
   onRegisteredSW(swUrl, r) {
     if (reloadSW === 'true') {
       r &&
