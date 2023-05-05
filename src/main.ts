@@ -2,11 +2,11 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { Quasar } from 'quasar'
 import quasarLang from 'quasar/lang/ru'
-// import { registerSW } from 'virtual:pwa-register'
-//
-// const updateSW = registerSW({
-//   onOfflineReady() {}
-// })
+import { registerSW } from 'virtual:pwa-register'
+
+const updateSW = registerSW({
+  onOfflineReady() {}
+})
 
 // Import Quasar css
 import 'quasar/dist/quasar.css'
