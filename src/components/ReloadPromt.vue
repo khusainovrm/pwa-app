@@ -24,7 +24,7 @@ const { needRefresh, updateServiceWorker } = useRegisterSW({
         setInterval(async () => {
           console.log('Checking for sw update')
           await r.update()
-        }, 10000 /* 10s for testing purposes */)
+        }, 20000 /* 20s for testing purposes */)
     } else {
       console.log(`SW Registered: ${r}`)
     }
