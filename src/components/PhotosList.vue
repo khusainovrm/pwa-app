@@ -38,6 +38,9 @@ import { fetchPhotos } from '@/api/jsonplaceholder'
 import type { Photo } from '@/types'
 import PhotoItem from '@/components/PhotoItem.vue'
 const getPhotos = async () => {
+  if (!textInput.value) {
+    return
+  }
   try {
     loading.value = true
     error.value = ''

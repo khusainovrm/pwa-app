@@ -3,6 +3,8 @@
     <PingPongSW class="q-mb-md" />
 
     <PhotosList />
+
+    <div class="q-mt-md">new content</div>
   </main>
 </template>
 
