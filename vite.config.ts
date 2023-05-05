@@ -51,7 +51,13 @@ const pwaOptions: Partial<VitePWAOptions> = {
         urlPattern: ({ url }) => {
           return url.pathname.startsWith('/photos')
         },
-        handler: 'NetworkFirst'
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'api-photos',
+          cacheableResponse: {
+            statuses: [0, 200]
+          }
+        }
       }
     ]
   }
