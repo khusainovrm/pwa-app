@@ -1,9 +1,7 @@
 <template>
-  <h6 class="q-mt-xs">Statuses:</h6>
-  <p>needRefresh - {{ needRefresh }}</p>
-
   <div v-if="needRefresh" class="pwa-toast" role="alert">
-    <button v-if="needRefresh" @click="updateServiceWorker()">Reload</button>
+    Обнови прилжоение?
+    <button v-if="needRefresh" @click="updateServiceWorker()">Обновить</button>
     <button @click="close">Close</button>
   </div>
 </template>
