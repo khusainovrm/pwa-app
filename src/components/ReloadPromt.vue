@@ -16,10 +16,12 @@ import { pwaInfo } from 'virtual:pwa-info'
 console.log('pwaInfo', pwaInfo)
 // replaced dyanmicaly
 const reloadSW: any = '__RELOAD_SW__'
+
 const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
   immediate: true,
   onRegisteredSW(swUrl, r) {
     console.log(`Service Worker at: ${swUrl}`)
+    console.log('reloadSW', reloadSW)
     if (reloadSW === 'true') {
       r &&
         setInterval(async () => {
