@@ -14,7 +14,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
     name: 'PWA App',
     short_name: 'PWA App',
     description: 'My Awesome PWA App description',
-    theme_color: '#ffffff',
+    theme_color: '#027be3',
     icons: [
       {
         src: 'pwa-192x192.png', // <== don't add slash, for testing
@@ -56,6 +56,7 @@ if (reload) {
 }
 
 // https://vitejs.dev/config/
+
 export default defineConfig({
   server: {
     host: true
@@ -66,6 +67,7 @@ export default defineConfig({
     }),
     quasar(),
     VitePWA(pwaOptions),
+    // @ts-ignore
     replace(replaceOptions)
   ],
   resolve: {

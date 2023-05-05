@@ -37,12 +37,6 @@ import { debounce } from 'quasar'
 import { fetchPhotos } from '@/api/jsonplaceholder'
 import type { Photo } from '@/types'
 import PhotoItem from '@/components/PhotoItem.vue'
-
-const textInput = ref(0)
-const loading = ref(false)
-const error = ref('')
-const photos = ref<Photo[]>([])
-
 const getPhotos = async () => {
   try {
     loading.value = true
@@ -58,5 +52,11 @@ const getPhotos = async () => {
     loading.value = false
   }
 }
+
+const textInput = ref(0)
+const loading = ref(false)
+const error = ref('')
+const photos = ref<Photo[]>([])
+
 watch(textInput, debounce(getPhotos, 1500))
 </script>
