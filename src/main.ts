@@ -5,7 +5,6 @@ import quasarLang from 'quasar/lang/ru'
 import { registerSW } from 'virtual:pwa-register'
 
 const updateSW = registerSW({
-  onOfflineReady() {},
   onNeedRefresh() {}
 })
 

@@ -1,13 +1,8 @@
 <template>
   <h6 class="q-mt-xs">Statuses:</h6>
-  <p class="q-ma-none">offlineReady - {{ offlineReady }}</p>
   <p>needRefresh - {{ needRefresh }}</p>
 
-  <div v-if="offlineReady || needRefresh" class="pwa-toast" role="alert">
-    <div class="message">
-      <span v-if="offlineReady"> App ready to work offline </span>
-      <span v-else> New content available, click on reload button to update. </span>
-    </div>
+  <div v-if="needRefresh" class="pwa-toast" role="alert">
     <button v-if="needRefresh" @click="updateServiceWorker()">Reload</button>
     <button @click="close">Close</button>
   </div>
@@ -21,25 +16,21 @@ console.log('pwaInfo', pwaInfo)
 // replaced dyanmicaly
 const reloadSW: any = '__RELOAD_SW__'
 
-const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
+const { needRefresh, updateServiceWorker } = useRegisterSW({
   immediate: true,
   onRegisteredSW(swUrl, r) {
-    console.log('ServiceWorkerRegistration: ', r)
-    console.log(`Service Worker at: ${swUrl}`)
-    console.log('reloadSW', reloadSW)
     if (reloadSW === 'true') {
       r &&
         setInterval(async () => {
           console.log('Checking for sw update')
           await r.update()
-        }, 20000 /* 20s for testing purposes */)
+        }, 10000 /* 10s for testing purposes */)
     } else {
       console.log(`SW Registered: ${r}`)
     }
   }
 })
 const close = async () => {
-  offlineReady.value = false
   needRefresh.value = false
 }
 </script>
