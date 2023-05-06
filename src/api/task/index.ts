@@ -1,7 +1,7 @@
 import http from '../index'
 import type { Task } from '@/types'
 
-const API_URL = 'https://crudcrud.com/api/ef8e67ad3b3b4e209666b825ab51a3dd/task'
+const API_URL = 'https://crudcrud.com/api/e7bcb10353674b44a75616ac15006e51/task'
 
 export async function fetchTasks(): Promise<Task[]> {
   const { data } = await http.get(`${API_URL}/`)
