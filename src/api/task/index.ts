@@ -1,7 +1,7 @@
 import http from '../index'
 import type { Task } from '@/types'
 
-const API_URL = 'https://crudcrud.com/api/46ce4cea444b4d738f40e46f48c4f4f8/task'
+const API_URL = 'https://crudcrud.com/api/ef8e67ad3b3b4e209666b825ab51a3dd/task'
 
 export async function fetchTasks(): Promise<Task[]> {
   const { data } = await http.get(`${API_URL}/`)
@@ -15,5 +15,10 @@ export async function createTask(name: string): Promise<Task> {
 
 export async function deleteTask(id: number): Promise<void> {
   const { data } = await http.delete(`${API_URL}/${id}`)
+  return data
+}
+
+export async function updateTaks(task: Task): Promise<void> {
+  const { data } = await http.put(`${API_URL}/${task._id}`, { type: task.type, name: task.name })
   return data
 }

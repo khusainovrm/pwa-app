@@ -6,14 +6,25 @@
       <div class="task-list__inner-container">
         <div class="task-list-column" v-for="column in columns" :key="column.name">
           <h5>{{ column.name }}</h5>
-          <div class="task-list__items">
-            <TaskItem
-              v-for="task in column.items"
-              :key="task._id"
-              :item="task"
-              :remove="removeTask"
-            />
-          </div>
+
+          <draggable
+            v-model="column.items"
+            group="people"
+            @start="onDragStart"
+            @end="onDragEnd"
+            item-key="_id"
+            class="task-list__items"
+            :data-column-name="column.name"
+          >
+            <template #item="{ element }">
+              <TaskItem
+                :key="element._id"
+                :item="element"
+                :remove="removeTask"
+                :data-id="element._id"
+              />
+            </template>
+          </draggable>
         </div>
       </div>
     </div>
@@ -34,10 +45,11 @@
 </template>
 
 <script setup lang="ts">
+import draggable from 'vuedraggable'
 import TaskItem from '@/components/task/taskItem.vue'
 import type { Task } from '@/types'
 import { computed, onMounted, ref } from 'vue'
-import { fetchTasks, createTask, deleteTask } from '@/api/task'
+import { fetchTasks, createTask, deleteTask, updateTaks } from '@/api/task'
 import { rErrorNotify } from '@/utils/notify'
 import { getErrorMessage } from '@/api'
 
@@ -46,15 +58,9 @@ const showCreateDialog = ref(false)
 const taskName = ref('')
 const loadingCreation = ref(false)
 const columnNames = ['new', 'doing', 'done']
+const columns = ref<{ name: string; items: Task[] }[]>([])
+const drag = ref(false)
 
-const columns = computed(() => {
-  return columnNames.map((name) => {
-    return {
-      name,
-      items: columnsByTasks.value[name] || []
-    }
-  })
-})
 const columnsByTasks = computed(() => {
   return list.value.reduce<{ [key: string]: Task[] }>((acc, curr: Task) => {
     if (curr.type in acc) {
@@ -66,13 +72,20 @@ const columnsByTasks = computed(() => {
   }, {})
 })
 
-const getTasks = async (updateList = true) => {
+const getTasks = async () => {
   try {
     const response = await fetchTasks()
-    if (updateList) {
-      list.value = response
-    }
+
+    list.value = response
+
+    columns.value = columnNames.map((name) => {
+      return {
+        name,
+        items: columnsByTasks.value[name] || []
+      }
+    })
   } catch (error) {
+    console.log('ee')
     rErrorNotify(getErrorMessage(error, 'Ошибка при загрузке задач'))
   }
 }
@@ -86,7 +99,7 @@ const create = async () => {
 
     list.value.push(task)
     showCreateDialog.value = false
-    getTasks(false)
+    getTasks()
   } catch (error) {
     rErrorNotify(getErrorMessage(error, 'Ошибка при создании задачи'))
   } finally {
@@ -97,10 +110,25 @@ const removeTask = async (id: number) => {
   try {
     await deleteTask(id)
     list.value = list.value.filter((i) => i._id !== id)
-    getTasks(false)
+    getTasks()
   } catch (error) {
     rErrorNotify(getErrorMessage(error, 'Ошибка при удалении задачи'))
   }
+}
+const chageOrder = async (task: Task) => {
+  await updateTaks(task)
+}
+
+const onDragStart = (e: any) => {
+  drag.value = true
+}
+
+const onDragEnd = async (e: any) => {
+  const foundTask = list.value.find((task) => task._id === e.item.dataset.id)
+  if (foundTask) {
+    await chageOrder({ ...foundTask, type: e.to.dataset.columnName })
+  }
+  drag.value = false
 }
 
 onMounted(() => {
