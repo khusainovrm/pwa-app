@@ -8,7 +8,7 @@
       <q-btn
         label="del"
         color="negative"
-        @click="removeTask"
+        @click.stop="removeTask"
         :disable="loading"
         class="q-ml-auto"
       />

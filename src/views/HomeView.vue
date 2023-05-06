@@ -1,6 +1,6 @@
 <template>
   <main>
-    <p class="q-mb-md">Service worker build date: {{ buildDate }}</p>
+    <p class="q-mb-md q-pa-md">Service worker build date: {{ buildDate }}</p>
 
     <TaskDashbord />
   </main>

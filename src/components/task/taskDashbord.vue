@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <h5 class="q-mb-md">Задачи</h5>
-    <q-btn class="q-mb-md" label="+" color="primary" @click="showCreateDialog = true" />
+  <div class="task-dashboard">
+    <h5 class="q-mb-md q-px-md">Задачи</h5>
+    <q-btn class="q-mb-md q-mx-md" label="+" color="primary" @click="showCreateDialog = true" />
     <div class="task-list">
       <div class="task-list__inner-container">
         <div class="task-list-column" v-for="column in columns" :key="column.name">
@@ -9,7 +9,7 @@
 
           <draggable
             v-model="column.items"
-            group="people"
+            v-bind="dragOptions"
             @start="onDragStart"
             @end="onDragEnd"
             item-key="_id"
@@ -22,6 +22,7 @@
                 :item="element"
                 :remove="removeTask"
                 :data-id="element._id"
+                class="list-draggable-item"
               />
             </template>
           </draggable>
@@ -49,7 +50,7 @@ import draggable from 'vuedraggable'
 import TaskItem from '@/components/task/taskItem.vue'
 import type { Task } from '@/types'
 import { computed, onMounted, ref } from 'vue'
-import { fetchTasks, createTask, deleteTask, updateTaks } from '@/api/task'
+import { createTask, deleteTask, fetchTasks, updateTaks } from '@/api/task'
 import { rErrorNotify } from '@/utils/notify'
 import { getErrorMessage } from '@/api'
 
@@ -60,6 +61,12 @@ const loadingCreation = ref(false)
 const columnNames = ['new', 'doing', 'done']
 const columns = ref<{ name: string; items: Task[] }[]>([])
 const drag = ref(false)
+const dragOptions = {
+  animation: 200,
+  group: 'tasks',
+  disabled: drag.value,
+  ghostClass: 'ghost'
+}
 
 const columnsByTasks = computed(() => {
   return list.value.reduce<{ [key: string]: Task[] }>((acc, curr: Task) => {
@@ -74,9 +81,7 @@ const columnsByTasks = computed(() => {
 
 const getTasks = async () => {
   try {
-    const response = await fetchTasks()
-
-    list.value = response
+    list.value = await fetchTasks()
 
     columns.value = columnNames.map((name) => {
       return {
@@ -116,8 +121,12 @@ const removeTask = async (id: number) => {
   }
 }
 const chageOrder = async (task: Task) => {
-  await updateTaks(task)
-  getTasks()
+  try {
+    await updateTaks(task)
+    getTasks()
+  } catch (error) {
+    rErrorNotify(getErrorMessage(error, 'Ошибка при изменении порядка задачи'))
+  }
 }
 
 const onDragStart = (e: any) => {
@@ -138,8 +147,11 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
+.task-dashboard {
+}
 .task-list {
   overflow: hidden;
+  height: calc(100vh - 172px);
   &-column {
     display: flex;
     flex-direction: column;
@@ -153,6 +165,7 @@ onMounted(() => {
     display: flex;
     flex-direction: row;
     gap: 16px;
+    height: 100%;
     overflow: auto;
     padding: 2px;
   }
