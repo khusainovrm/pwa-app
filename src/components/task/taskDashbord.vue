@@ -1,36 +1,44 @@
 <template>
   <div class="task-dashboard">
     <h5 class="q-mb-md q-px-md">Задачи</h5>
-    <q-btn class="q-mb-md q-mx-md" label="+" color="primary" @click="showCreateDialog = true" />
-    <div class="task-list">
-      <div class="task-list__inner-container">
-        <div class="task-list-column" v-for="column in columns" :key="column.name">
-          <h5>{{ column.name }}</h5>
 
-          <draggable
-            v-model="column.items"
-            v-bind="dragOptions"
-            @start="onDragStart"
-            @end="onDragEnd"
-            item-key="_id"
-            class="task-list__items"
-            :data-column-name="column.name"
-            :force-fallback="true"
-            :delay="80"
-          >
-            <template #item="{ element }">
-              <TaskItem
-                :key="element._id"
-                :item="element"
-                :remove="removeTask"
-                :data-id="element._id"
-                class="list-draggable-item"
-              />
-            </template>
-          </draggable>
+    <transition name="fade" mode="out-in">
+      <div v-if="loading" class="loading">
+        <q-spinner size="3rem" />
+      </div>
+      <div v-else>
+        <q-btn class="q-mb-md q-mx-md" label="+" color="primary" @click="showCreateDialog = true" />
+        <div class="task-list">
+          <div class="task-list__inner-container">
+            <div class="task-list-column" v-for="column in columns" :key="column.name">
+              <h5>{{ column.name }}</h5>
+
+              <draggable
+                v-model="column.items"
+                v-bind="dragOptions"
+                @start="onDragStart"
+                @end="onDragEnd"
+                item-key="_id"
+                class="task-list__items"
+                :data-column-name="column.name"
+                :force-fallback="true"
+                :delay="80"
+              >
+                <template #item="{ element }">
+                  <TaskItem
+                    :key="element._id"
+                    :item="element"
+                    :remove="removeTask"
+                    :data-id="element._id"
+                    class="list-draggable-item"
+                  />
+                </template>
+              </draggable>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </transition>
 
     <q-dialog v-model="showCreateDialog">
       <q-card class="q-pa-md">
@@ -57,6 +65,7 @@ import { rErrorNotify } from '@/utils/notify'
 import { getErrorMessage } from '@/api'
 
 const list = ref<Task[]>([])
+const loading = ref(true)
 const showCreateDialog = ref(false)
 const taskName = ref('')
 const loadingCreation = ref(false)
@@ -133,6 +142,7 @@ const chageOrder = async (task: Task) => {
 
 const onDragStart = (e: any) => {
   drag.value = true
+  navigator.vibrate(200)
 }
 
 const onDragEnd = async (e: any) => {
@@ -143,12 +153,19 @@ const onDragEnd = async (e: any) => {
   drag.value = false
 }
 
-onMounted(() => {
-  getTasks()
+onMounted(async () => {
+  loading.value = true
+  await getTasks()
+  loading.value = false
 })
 </script>
 
 <style scoped lang="scss">
+.loading {
+  display: grid;
+  place-items: center;
+  min-height: 250px;
+}
 .task-dashboard {
 }
 .task-list {
