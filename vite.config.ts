@@ -79,9 +79,12 @@ const pwaOptions: Partial<VitePWAOptions> = {
   }
 }
 
+const today = new Date()
+today.setHours(today.getHours() + 3)
+
 const replaceOptions: RollupReplaceOptions = {
   preventAssignment: true,
-  __BUILD_DATA__: new Date().toLocaleDateString('ru', {
+  __BUILD_DATA__: today.toLocaleDateString('ru', {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit'

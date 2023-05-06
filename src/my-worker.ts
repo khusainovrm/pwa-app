@@ -3,6 +3,7 @@ import { msg } from './workerImport'
 let counter = 1
 
 self.onmessage = (e) => {
+  console.log('E', e)
   if (e.data === 'ping') {
     self.postMessage({ msg: `${msg} - ${counter++}` })
   } else if (e.data === 'clear') {
