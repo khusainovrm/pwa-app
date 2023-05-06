@@ -5,3 +5,9 @@ export interface Photo {
   title: string
   url: string
 }
+
+export interface Task {
+  _id: number
+  name: string
+  type: string
+}

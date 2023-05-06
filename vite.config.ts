@@ -59,6 +59,19 @@ const pwaOptions: Partial<VitePWAOptions> = {
         }
       },
       {
+        urlPattern: ({ url }) => {
+          return url.pathname.startsWith('/api/30ce38b308e946b581496ada91ff6be1/task')
+        },
+        method: 'GET',
+        handler: 'NetworkFirst',
+        options: {
+          cacheName: 'api-task',
+          cacheableResponse: {
+            statuses: [0, 200]
+          }
+        }
+      },
+      {
         urlPattern: '/',
         handler: 'NetworkFirst'
       }
