@@ -34,6 +34,16 @@ const showCreateDialog = ref(false)
 const taskName = ref('')
 const loadingCreation = ref(false)
 
+const getTasks = async (updateList = true) => {
+  try {
+    const response = await fetchTasks()
+    if (updateList) {
+      list.value = response
+    }
+  } catch (error) {
+    rErrorNotify(getErrorMessage(error, 'Ошибка при загрузке задач'))
+  }
+}
 const create = async () => {
   if (!taskName.value.length) {
     return
@@ -41,30 +51,28 @@ const create = async () => {
   try {
     loadingCreation.value = true
     const task = await createTask(taskName.value)
+
     list.value.push(task)
     showCreateDialog.value = false
+    getTasks(false)
   } catch (error) {
     rErrorNotify(getErrorMessage(error, 'Ошибка при создании задачи'))
   } finally {
     loadingCreation.value = false
   }
 }
-
 const removeTask = async (id: number) => {
   try {
     await deleteTask(id)
     list.value = list.value.filter((i) => i._id !== id)
+    getTasks(false)
   } catch (error) {
     rErrorNotify(getErrorMessage(error, 'Ошибка при удалении задачи'))
   }
 }
 
-onMounted(async () => {
-  try {
-    list.value = await fetchTasks()
-  } catch (error) {
-    rErrorNotify(getErrorMessage(error, 'Ошибка при загрузке задач'))
-  }
+onMounted(() => {
+  getTasks()
 })
 </script>
 

@@ -1,6 +1,7 @@
 <template>
   <div v-if="needRefresh" class="pwa-toast" role="alert">
-    Обнови прилжоение?
+    <p>Обновить прилжоение?</p>
+
     <button v-if="needRefresh" @click="updateServiceWorker()">Обновить</button>
     <button @click="close">Close</button>
   </div>
@@ -44,7 +45,7 @@ const close = async () => {
   border-radius: 4px;
   z-index: 1;
   text-align: left;
-  box-shadow: 3px 4px 5px 0px #8885;
+  box-shadow: 3px 4px 5px 0 #8885;
 }
 .pwa-toast .message {
   margin-bottom: 8px;
