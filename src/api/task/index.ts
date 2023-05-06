@@ -1,7 +1,7 @@
 import http from '../index'
 import type { Task } from '@/types'
 
-const API_URL = 'https://crudcrud.com/api/e7bcb10353674b44a75616ac15006e51/task'
+const API_URL = `https://crudcrud.com/api/${import.meta.env.VITE_API_CRUD_CRUD_ID}/task`
 
 export async function fetchTasks(): Promise<Task[]> {
   const { data } = await http.get(`${API_URL}/`)

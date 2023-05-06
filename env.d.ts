@@ -60,3 +60,7 @@ declare module 'virtual:pwa-info' {
    */
   export const pwaInfo: PwaInfo | undefined
 }
+
+interface ImportMetaEnv {
+  readonly VITE_API_CRUD_CRUD_ID: string
+}

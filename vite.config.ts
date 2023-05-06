@@ -60,7 +60,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
       },
       {
         urlPattern: ({ url }) => {
-          return url.pathname.startsWith('/api/e7bcb10353674b44a75616ac15006e51/task')
+          return url.pathname.startsWith(`/api/${process.env.VITE_API_CRUD_CRUD_ID}/task`)
         },
         method: 'GET',
         handler: 'NetworkFirst',
