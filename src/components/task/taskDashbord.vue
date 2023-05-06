@@ -15,6 +15,8 @@
             item-key="_id"
             class="task-list__items"
             :data-column-name="column.name"
+            :force-fallback="true"
+            :delay="80"
           >
             <template #item="{ element }">
               <TaskItem
@@ -153,6 +155,7 @@ onMounted(() => {
   overflow: hidden;
   height: calc(100vh - 172px);
   &-column {
+    overflow: auto;
     display: flex;
     flex-direction: column;
     gap: 16px;
