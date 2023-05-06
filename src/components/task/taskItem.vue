@@ -1,5 +1,5 @@
 <template>
-  <q-card>
+  <q-card class="card">
     <q-card-section>
       {{ item.name }}
     </q-card-section>
@@ -35,4 +35,13 @@ const removeTask = async () => {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.card {
+  max-width: 250px;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0 1px 12px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14),
+      0 3px 1px -2px rgba(0, 0, 0, 0.12);
+  }
+}
+</style>

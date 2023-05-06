@@ -3,7 +3,19 @@
     <h5 class="q-mb-md">Задачи</h5>
     <q-btn class="q-mb-md" label="+" color="primary" @click="showCreateDialog = true" />
     <div class="task-list">
-      <TaskItem v-for="task in list" :key="task._id" :item="task" :remove="removeTask" />
+      <div class="task-list__inner-container">
+        <div class="task-list-column" v-for="column in columns" :key="column.name">
+          <h5>{{ column.name }}</h5>
+          <div class="task-list__items">
+            <TaskItem
+              v-for="task in column.items"
+              :key="task._id"
+              :item="task"
+              :remove="removeTask"
+            />
+          </div>
+        </div>
+      </div>
     </div>
 
     <q-dialog v-model="showCreateDialog">
@@ -24,7 +36,7 @@
 <script setup lang="ts">
 import TaskItem from '@/components/task/taskItem.vue'
 import type { Task } from '@/types'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { fetchTasks, createTask, deleteTask } from '@/api/task'
 import { rErrorNotify } from '@/utils/notify'
 import { getErrorMessage } from '@/api'
@@ -33,6 +45,26 @@ const list = ref<Task[]>([])
 const showCreateDialog = ref(false)
 const taskName = ref('')
 const loadingCreation = ref(false)
+const columnNames = ['new', 'doing', 'done']
+
+const columns = computed(() => {
+  return columnNames.map((name) => {
+    return {
+      name,
+      items: columnsByTasks.value[name] || []
+    }
+  })
+})
+const columnsByTasks = computed(() => {
+  return list.value.reduce<{ [key: string]: Task[] }>((acc, curr: Task) => {
+    if (curr.type in acc) {
+      acc[`${curr.type}`].push(curr)
+    } else {
+      acc[`${curr.type}`] = [curr]
+    }
+    return acc
+  }, {})
+})
 
 const getTasks = async (updateList = true) => {
   try {
@@ -78,8 +110,28 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .task-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  overflow: hidden;
+  &-column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 250px;
+    border: 1px solid;
+    padding: 16px;
+  }
+
+  &__inner-container {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    overflow: auto;
+    padding: 2px;
+  }
+  &__items {
+    display: flex;
+    flex: 1;
+    flex-flow: column;
+    gap: 16px;
+  }
 }
 </style>

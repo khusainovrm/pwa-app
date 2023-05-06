@@ -14,8 +14,9 @@ const http = axios.create({
 export default http
 
 export const getErrorMessage = (error: any, defaultMessage?: string): string => {
-  if ([400, 404].includes(error?.response?.status) && error?.response?.data?.error?.message) {
-    return error.response.data.error.message
+  if ([400, 404].includes(error?.response?.status) && error?.response?.data) {
+    console.log()
+    return error.response.data?.error?.message || error.response.data
   } else if (defaultMessage) {
     return defaultMessage
   } else return DEFAULT_ERROR_TEXT

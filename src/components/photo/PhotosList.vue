@@ -36,7 +36,7 @@ import { ref, watch } from 'vue'
 import { debounce } from 'quasar'
 import { fetchPhotos } from '@/api/jsonplaceholder'
 import type { Photo } from '@/types'
-import PhotoItem from '@/components/PhotoItem.vue'
+import PhotoItem from '@/components/photo/PhotoItem.vue'
 const getPhotos = async () => {
   if (!textInput.value) {
     return

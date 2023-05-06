@@ -9,5 +9,5 @@ export interface Photo {
 export interface Task {
   _id: number
   name: string
-  type: string
+  type: 'new' | 'doing' | 'done'
 }
