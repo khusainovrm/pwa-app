@@ -117,6 +117,7 @@ const removeTask = async (id: number) => {
 }
 const chageOrder = async (task: Task) => {
   await updateTaks(task)
+  getTasks()
 }
 
 const onDragStart = (e: any) => {
