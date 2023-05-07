@@ -21,7 +21,7 @@ self.onmessage = async (e) => {
             .filter((name) => name === tasksCacheName)
             .map(async (name) => {
               const oldRequest = await caches.open(name)
-              const tasksCache = oldRequest.keys()
+              const tasksCache = await oldRequest.keys()
               console.log('tasksCache', tasksCache)
             })
         )
