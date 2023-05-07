@@ -3,13 +3,9 @@ import type { Task } from '@/types'
 
 const API_URL = `https://crudcrud.com/api/${import.meta.env.VITE_API_CRUD_CRUD_ID}/task`
 
-export function fetchTasks(): Promise<Task[]> {
-  return http
-    .get(`${API_URL}/`)
-    .then(formatRes)
-    .catch((err) => {
-      return formatErr(err, { prefix: 'Ошибка загрузки списка задач' })
-    })
+export async function fetchTasks(): Promise<Task[]> {
+  const { data } = await http.get(`${API_URL}/`)
+  return data
 }
 
 export function createTask(name: string): Promise<Task> {
