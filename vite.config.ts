@@ -17,8 +17,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
     name: 'PWA App',
     short_name: 'PWA App',
     description: 'My Awesome PWA App description',
-    theme_color: '#7863e5',
-    background_color: '#ffe5e5',
+    theme_color: '#4c466e',
     icons: [
       {
         src: 'pwa-192x192.png', // <== don't add slash, for testing
