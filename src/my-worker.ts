@@ -1,5 +1,5 @@
 import { msg } from './workerImport'
-const tasksCacheName = 'api-task - https://pwa-app-vert.vecel.app/'
+const tasksCacheName = 'api-task'
 
 let counter = 1
 
