@@ -17,7 +17,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
     name: 'PWA App',
     short_name: 'PWA App',
     description: 'My Awesome PWA App description',
-    theme_color: '#4c466e',
+    theme_color: '#7863e5',
     icons: [
       {
         src: 'pwa-192x192.png', // <== don't add slash, for testing
@@ -46,11 +46,13 @@ const pwaOptions: Partial<VitePWAOptions> = {
   registerType: 'prompt',
   workbox: {
     globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+    cleanupOutdatedCaches: false,
     runtimeCaching: [
       {
         urlPattern: ({ url }) => {
           return url.pathname.startsWith(`/api/950519da3d124b3f8a990f318d78cb70/task`)
         },
+        method: 'GET',
         handler: 'NetworkFirst',
         options: {
           cacheName: 'api-task',
