@@ -6,6 +6,10 @@
       <div v-if="loading" class="loading">
         <q-spinner size="3rem" />
       </div>
+      <div v-else-if="!list.length">
+        <p class="q-px-md">Создайте задачу</p>
+        <q-btn class="q-mb-md q-mx-md" label="+" color="primary" @click="showCreateDialog = true" />
+      </div>
       <div v-else>
         <q-btn class="q-mb-md q-mx-md" label="+" color="primary" @click="showCreateDialog = true" />
         <div class="task-list">
@@ -101,7 +105,6 @@ const getTasks = async () => {
       }
     })
   } catch (error) {
-    console.log('ee')
     rErrorNotify(getErrorMessage(error, 'Ошибка при загрузке задач'))
   }
 }
@@ -142,7 +145,7 @@ const chageOrder = async (task: Task) => {
 
 const onDragStart = (e: any) => {
   drag.value = true
-  navigator.vibrate(200)
+  navigator.vibrate(100)
 }
 
 const onDragEnd = async (e: any) => {

@@ -64,3 +64,7 @@ declare module 'virtual:pwa-info' {
 interface ImportMetaEnv {
   readonly VITE_API_CRUD_CRUD_ID: string
 }
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}

@@ -1,5 +1,5 @@
 import { fileURLToPath, URL } from 'node:url'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 import type { VitePWAOptions } from 'vite-plugin-pwa'
@@ -60,7 +60,9 @@ const pwaOptions: Partial<VitePWAOptions> = {
       },
       {
         urlPattern: ({ url }) => {
-          return url.pathname.startsWith(`/api/${process.env.VITE_API_CRUD_CRUD_ID}/task`)
+          return url.pathname.startsWith(
+            `/api/${loadEnv('', process.cwd()).VITE_API_CRUD_CRUD_ID}/task`
+          )
         },
         method: 'GET',
         handler: 'NetworkFirst',
@@ -96,7 +98,6 @@ if (reload) {
 }
 
 // https://vitejs.dev/config/
-
 export default defineConfig({
   server: {
     host: true
