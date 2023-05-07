@@ -1,19 +1,22 @@
 <template>
   <div v-if="needRefresh" class="pwa-toast" role="alert">
-    <p>Обновить прилжоение?</p>
+    <p>Обновить приложение?</p>
 
-    <button v-if="needRefresh" @click="updateServiceWorker()">Обновить</button>
-    <button @click="close">Close</button>
+    <button v-if="needRefresh" @click="update" :disabled="loading">Обновить</button>
+    <button @click="close">Закрыть</button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { pwaInfo } from 'virtual:pwa-info'
+import { ref } from 'vue'
 
 console.log('pwaInfo', pwaInfo)
 // replaced dyanmicaly
 const reloadSW: any = '__RELOAD_SW__'
+
+const loading = ref(false)
 
 const { needRefresh, updateServiceWorker } = useRegisterSW({
   // immediate: true,
@@ -29,6 +32,11 @@ const { needRefresh, updateServiceWorker } = useRegisterSW({
     }
   }
 })
+const update = async () => {
+  loading.value = true
+  await updateServiceWorker()
+  loading.value = false
+}
 const close = async () => {
   needRefresh.value = false
 }

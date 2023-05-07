@@ -50,32 +50,16 @@ const pwaOptions: Partial<VitePWAOptions> = {
     runtimeCaching: [
       {
         urlPattern: ({ url }) => {
-          return url.pathname.startsWith('/photo')
-        },
-        handler: 'CacheFirst',
-        options: {
-          cacheName: 'api-photos',
-          cacheableResponse: {
-            statuses: [0, 200]
-          }
-        }
-      },
-      {
-        urlPattern: ({ url }) => {
           return url.pathname.startsWith(`/api/950519da3d124b3f8a990f318d78cb70/task`)
         },
         method: 'GET',
-        handler: 'CacheFirst',
+        handler: 'NetworkFirst',
         options: {
           cacheName: 'api-task',
           cacheableResponse: {
             statuses: [0, 200]
           }
         }
-      },
-      {
-        urlPattern: '/',
-        handler: 'NetworkFirst'
       }
     ]
   }
