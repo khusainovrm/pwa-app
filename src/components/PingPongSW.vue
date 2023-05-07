@@ -2,7 +2,7 @@
   <q-card class="my-card">
     <q-card-section>
       <button @click="runWorker">Ping web worker</button>
-      &#160;&#160;
+
       <button @click="resetMessage">Reset message</button>
       <br />
 
