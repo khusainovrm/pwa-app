@@ -26,7 +26,7 @@
                 class="task-list__items"
                 :data-column-name="column.name"
                 :force-fallback="true"
-                :delay="80"
+                :delay="$q.platform.is.mobile ? 200 : 0"
               >
                 <template #item="{ element }">
                   <TaskItem
@@ -67,7 +67,9 @@ import { computed, onMounted, ref } from 'vue'
 import { createTask, deleteTask, fetchTasks, updateTaks } from '@/api/task'
 import { rErrorNotify } from '@/utils/notify'
 import { getErrorMessage } from '@/api'
+import { useQuasar } from 'quasar'
 
+const $q = useQuasar()
 const list = ref<Task[]>([])
 const loading = ref(true)
 const showCreateDialog = ref(false)
@@ -180,7 +182,7 @@ onMounted(async () => {
     flex-direction: column;
     gap: 16px;
     min-width: 250px;
-    border: 1px solid;
+
     padding: 16px;
   }
 
@@ -193,6 +195,7 @@ onMounted(async () => {
     padding: 2px;
   }
   &__items {
+    border: 1px solid;
     display: flex;
     flex: 1;
     flex-flow: column;

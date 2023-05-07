@@ -7,6 +7,8 @@ import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 import replace from '@rollup/plugin-replace'
 import type { RollupReplaceOptions } from '@rollup/plugin-replace'
 
+const ENV_CRUD_ID = loadEnv('', process.cwd()).VITE_API_CRUD_CRUD_ID
+console.log('ENV_CRUD_ID', ENV_CRUD_ID)
 const pwaOptions: Partial<VitePWAOptions> = {
   mode: 'development',
   base: '/',
@@ -60,9 +62,11 @@ const pwaOptions: Partial<VitePWAOptions> = {
       },
       {
         urlPattern: ({ url }) => {
-          return url.pathname.startsWith(
-            `/api/${loadEnv('', process.cwd()).VITE_API_CRUD_CRUD_ID}/task`
+          console.log(
+            'url.pathname.startsWith(`/api/${ENV_CRUD_ID}/task`)',
+            url.pathname.startsWith(`/api/${ENV_CRUD_ID}/task`)
           )
+          return url.pathname.startsWith(`/api/950519da3d124b3f8a990f318d78cb70/task`)
         },
         method: 'GET',
         handler: 'NetworkFirst',
