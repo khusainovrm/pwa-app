@@ -1,5 +1,5 @@
 import { fileURLToPath, URL } from 'node:url'
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 import type { VitePWAOptions } from 'vite-plugin-pwa'
@@ -7,8 +7,6 @@ import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 import replace from '@rollup/plugin-replace'
 import type { RollupReplaceOptions } from '@rollup/plugin-replace'
 
-const ENV_CRUD_ID = loadEnv('', process.cwd()).VITE_API_CRUD_CRUD_ID
-console.log('ENV_CRUD_ID', ENV_CRUD_ID)
 const pwaOptions: Partial<VitePWAOptions> = {
   mode: 'development',
   base: '/',
@@ -46,11 +44,10 @@ const pwaOptions: Partial<VitePWAOptions> = {
   registerType: 'prompt',
   workbox: {
     globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
-    cleanupOutdatedCaches: false,
     runtimeCaching: [
       {
         urlPattern: ({ url }) => {
-          return url.pathname.startsWith(`/api/950519da3d124b3f8a990f318d78cb70/task`)
+          return url.pathname.startsWith(`/api`)
         },
         method: 'GET',
         handler: 'NetworkFirst',
