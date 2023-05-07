@@ -1,14 +1,18 @@
 import MyWorker from '../../my-worker?worker'
+import { useTaskStore } from '@/stores'
 
-import type { Task } from '@/types'
 const worker = new MyWorker()
+
 export function useMySw() {
-  const saveTasks = async (taskList: Task[]) => {
-    console.log('taskList', taskList)
-    worker.postMessage('save tasks')
+  const updateTasksCache = async () => {
+    const taskStore = useTaskStore()
+    worker.postMessage({
+      taskType: 'save-task',
+      taskArguments: JSON.stringify(taskStore.tasks)
+    })
   }
 
   return {
-    saveTasks
+    updateTasksCache
   }
 }

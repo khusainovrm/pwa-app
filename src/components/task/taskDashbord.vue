@@ -70,7 +70,7 @@ import { useTaskStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 
 const $q = useQuasar()
-const mySw = useMySw()
+const { updateTasksCache } = useMySw()
 const { fetch, create, remove, update } = useTaskStore()
 const { tasks } = storeToRefs(useTaskStore())
 
@@ -113,6 +113,7 @@ const createTask = async () => {
     loadingCreation.value = true
     await create(taskName.value)
     refreshColumns()
+    updateTasksCache()
   } catch {
     /* empty */
   } finally {
@@ -124,6 +125,7 @@ const removeTask = async (id: number) => {
   try {
     await remove(id)
     refreshColumns()
+    updateTasksCache()
   } catch {
     /* empty */
   }
@@ -132,6 +134,7 @@ const changeTaskOrder = async (task: Task) => {
   try {
     await update(task)
     columnsStateBeforeDrug = []
+    updateTasksCache()
   } catch (e) {
     columns.value = columnsStateBeforeDrug
   }
