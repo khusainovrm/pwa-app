@@ -49,6 +49,10 @@ const pwaOptions: Partial<VitePWAOptions> = {
     runtimeCaching: [
       {
         urlPattern: ({ url }) => {
+          console.log(
+            'check :',
+            url.pathname.startsWith(`/api/950519da3d124b3f8a990f318d78cb70/task`)
+          )
           return url.pathname.startsWith(`/api/950519da3d124b3f8a990f318d78cb70/task`)
         },
         method: 'GET',

@@ -33,6 +33,7 @@ const { needRefresh, updateServiceWorker } = useRegisterSW({
   }
 })
 const update = async () => {
+  console.log('start updating')
   loading.value = true
   await updateServiceWorker()
   loading.value = false
