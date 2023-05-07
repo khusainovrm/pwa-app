@@ -34,7 +34,6 @@ export const formatErr = (err: any, options: { prefix?: string } = {}) => {
     error = err.response.data.error
   } else if (err.response && err.response.data) {
     if (typeof err.response.data !== 'object') {
-      // @ts-ignore
       error.data = err.response.data
     } else {
       error = err.response.data
@@ -43,28 +42,21 @@ export const formatErr = (err: any, options: { prefix?: string } = {}) => {
     error = err.response
   } else if (!err.response && err.message === 'Network Error' && !err.status) {
     error = err
-    // @ts-ignore
     error.description = isPrefix
       ? options.prefix + ': нет соединения с интернетом!'
       : 'Нет соединения с интернетом!'
   }
   if (err.response !== undefined && err.response.status) {
-    // @ts-ignore
     error.status = err.response.status
   } else {
-    // @ts-ignore
     error.status = null
   }
   if (error.status === 401) {
     error.description = ''
   } else if (error.description) {
-    // @ts-ignore
-    error.description = isPrefix
-      ? // @ts-ignore
-        options.prefix + ': ' + error.description
-      : // @ts-ignore
-        error.description
-    // @ts-ignore
+    error.description = isPrefix ? error.description : error.description
+  } else if (err.response.data) {
+    error.description = err.response.data
   } else if (!error.description) {
     error.description = isPrefix
       ? options.prefix + ': что-то пошло не так.'
@@ -73,7 +65,6 @@ export const formatErr = (err: any, options: { prefix?: string } = {}) => {
   const HTML = /(<([^>]+)>)/gi
   if (HTML.test(error.description)) {
     // Ошибка может приходить из Nginx в виде html, такие ошибки пользователям не показываем
-    // @ts-ignore
     error.description = 'Что-то пошло не так.'
   }
   throw error

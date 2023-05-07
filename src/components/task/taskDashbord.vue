@@ -6,7 +6,7 @@
       <div v-if="loading" class="loading">
         <q-spinner size="3rem" />
       </div>
-      <div v-else-if="!list.length">
+      <div v-else-if="!tasks?.length">
         <p class="q-px-md">Создайте задачу</p>
         <q-btn class="q-mb-md q-mx-md" label="+" color="primary" @click="showCreateDialog = true" />
       </div>
@@ -52,7 +52,7 @@
         </q-card-section>
 
         <q-card-actions>
-          <q-btn label="Создать" color="primary" @click="create" :disable="loadingCreation" />
+          <q-btn label="Создать" color="primary" @click="createTask" :disable="loadingCreation" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -64,21 +64,23 @@ import draggable from 'vuedraggable'
 import TaskItem from '@/components/task/taskItem.vue'
 import type { Task } from '@/types'
 import { computed, onMounted, ref } from 'vue'
-import { createTask, deleteTask, fetchTasks, updateTaks } from '@/api/task'
-import { rErrorNotify } from '@/utils/notify'
 import { useQuasar } from 'quasar'
-import { getErrorMessage } from '@/api'
 import { useMySw } from '@/components/composable/useMySw'
+import { useTaskStore } from '@/stores'
+import { storeToRefs } from 'pinia'
 
 const $q = useQuasar()
 const mySw = useMySw()
-const list = ref<Task[]>([])
+const { fetch, create, remove, update } = useTaskStore()
+const { tasks } = storeToRefs(useTaskStore())
+
 const loading = ref(true)
 const showCreateDialog = ref(false)
 const taskName = ref('')
 const loadingCreation = ref(false)
 const columnNames = ['new', 'doing', 'done']
 const columns = ref<{ name: string; items: Task[] }[]>([])
+let columnsStateBeforeDrug: { name: string; items: Task[] }[] = []
 const drag = ref(false)
 const dragOptions = {
   animation: 200,
@@ -88,82 +90,79 @@ const dragOptions = {
 }
 
 const columnsByTasks = computed(() => {
-  return list.value.reduce<{ [key: string]: Task[] }>((acc, curr: Task) => {
-    if (curr.type in acc) {
-      acc[`${curr.type}`].push(curr)
-    } else {
-      acc[`${curr.type}`] = [curr]
-    }
-    return acc
-  }, {})
+  if (!tasks.value) {
+    return {}
+  }
+  return (
+    tasks.value.reduce<{ [key: string]: Task[] }>((acc, curr: Task) => {
+      if (curr.type in acc) {
+        acc[`${curr.type}`].push(curr)
+      } else {
+        acc[`${curr.type}`] = [curr]
+      }
+      return acc
+    }, {}) || {}
+  )
 })
 
-const getTasks = async () => {
-  try {
-    list.value = await fetchTasks()
-
-    columns.value = columnNames.map((name) => {
-      return {
-        name,
-        items: columnsByTasks.value[name] || []
-      }
-    })
-  } catch (error) {
-    rErrorNotify(getErrorMessage(error))
-  }
-}
-const create = async () => {
-  if (!taskName.value.length) {
+const createTask = async () => {
+  if (!taskName.value) {
     return
   }
   try {
     loadingCreation.value = true
-    const task = await createTask(taskName.value)
-
-    list.value.push(task)
-    showCreateDialog.value = false
-    mySw.saveTasks(list.value)
-    // getTasks()
-  } catch (error) {
-    rErrorNotify(getErrorMessage(error))
+    await create(taskName.value)
+    refreshColumns()
+  } catch {
+    /* empty */
   } finally {
     loadingCreation.value = false
+    showCreateDialog.value = false
   }
 }
 const removeTask = async (id: number) => {
   try {
-    await deleteTask(id)
-    list.value = list.value.filter((i) => i._id !== id)
-    getTasks()
-  } catch (error) {
-    rErrorNotify(getErrorMessage(error))
+    await remove(id)
+    refreshColumns()
+  } catch {
+    /* empty */
   }
 }
-const chageOrder = async (task: Task) => {
+const changeTaskOrder = async (task: Task) => {
   try {
-    await updateTaks(task)
-    getTasks()
-  } catch (error) {
-    rErrorNotify(getErrorMessage(error))
+    await update(task)
+    columnsStateBeforeDrug = []
+  } catch (e) {
+    columns.value = columnsStateBeforeDrug
   }
 }
 
+const refreshColumns = () => {
+  columns.value = columnNames.map((name) => {
+    return {
+      name,
+      items: columnsByTasks.value[name] || []
+    }
+  })
+}
 const onDragStart = (e: any) => {
+  columnsStateBeforeDrug = JSON.parse(JSON.stringify(columns.value))
   drag.value = true
   navigator.vibrate(100)
 }
-
 const onDragEnd = async (e: any) => {
-  const foundTask = list.value.find((task) => task._id === e.item.dataset.id)
+  const foundTask = tasks.value!.find((task) => task._id === e.item.dataset.id)
+
   if (foundTask) {
-    await chageOrder({ ...foundTask, type: e.to.dataset.columnName })
+    await changeTaskOrder({ ...foundTask, type: e.to.dataset.columnName })
   }
   drag.value = false
 }
 
 onMounted(async () => {
   loading.value = true
-  await getTasks()
+  await fetch()
+  refreshColumns()
   loading.value = false
 })
 </script>
