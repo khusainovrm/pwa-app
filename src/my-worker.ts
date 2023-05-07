@@ -15,6 +15,7 @@ self.onmessage = async (e) => {
       console.log('save')
       try {
         const cacheNames = await caches.keys()
+        console.log('cacheNames', cacheNames)
         await Promise.all(
           cacheNames
             .filter((name) => name === tasksCacheName)
