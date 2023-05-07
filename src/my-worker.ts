@@ -19,7 +19,10 @@ self.onmessage = async (e) => {
         await Promise.all(
           cacheNames
             .filter((name) => name === tasksCacheName)
-            .map((name) => console.log('caches.open(name)', caches.open(name)))
+            .map(async (name) => {
+              const oldRequest = await caches.open(name)
+              console.log('oldRequest', oldRequest)
+            })
         )
       } catch (e) {
         console.log(e)
