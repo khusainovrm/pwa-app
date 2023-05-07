@@ -200,6 +200,8 @@ onMounted(async () => {
     flex: 1;
     flex-flow: column;
     gap: 16px;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 }
 </style>
