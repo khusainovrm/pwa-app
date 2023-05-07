@@ -22,10 +22,6 @@ self.onmessage = async (e) => {
             .map(async (name) => {
               const oldRequest = await caches.open(name)
               const tasksCache = oldRequest.keys()
-              console.log(
-                'import.meta.env.VITE_API_CRUD_CRUD_ID',
-                import.meta.env.VITE_API_CRUD_CRUD_ID
-              )
               console.log('tasksCache', tasksCache)
             })
         )
