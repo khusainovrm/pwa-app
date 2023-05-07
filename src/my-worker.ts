@@ -2,9 +2,10 @@ import { msg } from './workerImport'
 
 let counter = 1
 
-self.onmessage = (e) => {
-  console.log('E', e)
-  if (e.data === 'ping') {
+self.onmessage = async (e) => {
+  if (e.data === 'save tasks') {
+    console.log('cache', await caches.keys())
+  } else if (e.data === 'ping') {
     self.postMessage({ msg: `${msg} - ${counter++}` })
   } else if (e.data === 'clear') {
     counter = 1

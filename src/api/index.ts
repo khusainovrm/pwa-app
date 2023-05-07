@@ -15,11 +15,13 @@ const http = axios.create({
 export default http
 
 export const getErrorMessage = (error: any, defaultMessage?: string): string => {
-  if ([400, 404].includes(error?.response?.status) && error?.response?.data) {
-    return error.response.data?.error?.message || error.response.data
+  if (error.description) {
+    return error.description
   } else if (defaultMessage) {
     return defaultMessage
-  } else return DEFAULT_ERROR_TEXT
+  } else {
+    return DEFAULT_ERROR_TEXT
+  }
 }
 
 export const formatRes = (res: AxiosResponse) => Promise.resolve(res.data)
@@ -27,7 +29,7 @@ export const formatRes = (res: AxiosResponse) => Promise.resolve(res.data)
 export const formatErr = (err: any, options: { prefix?: string } = {}) => {
   const isPrefix = !!options.prefix
 
-  let error = new Error()
+  let error: any = new Error()
   if (err.response && err.response.data && err.response.data.error) {
     error = err.response.data.error
   } else if (err.response && err.response.data) {
@@ -53,11 +55,8 @@ export const formatErr = (err: any, options: { prefix?: string } = {}) => {
     // @ts-ignore
     error.status = null
   }
-  // @ts-ignore
   if (error.status === 401) {
-    // @ts-ignore
     error.description = ''
-    // @ts-ignore
   } else if (error.description) {
     // @ts-ignore
     error.description = isPrefix
@@ -67,13 +66,11 @@ export const formatErr = (err: any, options: { prefix?: string } = {}) => {
         error.description
     // @ts-ignore
   } else if (!error.description) {
-    // @ts-ignore
     error.description = isPrefix
       ? options.prefix + ': что-то пошло не так.'
       : 'Что-то пошло не так.'
   }
   const HTML = /(<([^>]+)>)/gi
-  // @ts-ignore
   if (HTML.test(error.description)) {
     // Ошибка может приходить из Nginx в виде html, такие ошибки пользователям не показываем
     // @ts-ignore

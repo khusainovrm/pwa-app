@@ -66,10 +66,12 @@ import type { Task } from '@/types'
 import { computed, onMounted, ref } from 'vue'
 import { createTask, deleteTask, fetchTasks, updateTaks } from '@/api/task'
 import { rErrorNotify } from '@/utils/notify'
-import { getErrorMessage } from '@/api'
 import { useQuasar } from 'quasar'
+import { getErrorMessage } from '@/api'
+import { useMySw } from '@/components/composable/useMySw'
 
 const $q = useQuasar()
+const mySw = useMySw()
 const list = ref<Task[]>([])
 const loading = ref(true)
 const showCreateDialog = ref(false)
@@ -107,7 +109,7 @@ const getTasks = async () => {
       }
     })
   } catch (error) {
-    rErrorNotify(getErrorMessage(error, 'Ошибка при загрузке задач'))
+    rErrorNotify(getErrorMessage(error))
   }
 }
 const create = async () => {
@@ -120,9 +122,10 @@ const create = async () => {
 
     list.value.push(task)
     showCreateDialog.value = false
-    getTasks()
+    mySw.saveTasks(list.value)
+    // getTasks()
   } catch (error) {
-    rErrorNotify(getErrorMessage(error, 'Ошибка при создании задачи'))
+    rErrorNotify(getErrorMessage(error))
   } finally {
     loadingCreation.value = false
   }
@@ -133,7 +136,7 @@ const removeTask = async (id: number) => {
     list.value = list.value.filter((i) => i._id !== id)
     getTasks()
   } catch (error) {
-    rErrorNotify(getErrorMessage(error, 'Ошибка при удалении задачи'))
+    rErrorNotify(getErrorMessage(error))
   }
 }
 const chageOrder = async (task: Task) => {
@@ -141,7 +144,7 @@ const chageOrder = async (task: Task) => {
     await updateTaks(task)
     getTasks()
   } catch (error) {
-    rErrorNotify(getErrorMessage(error, 'Ошибка при изменении порядка задачи'))
+    rErrorNotify(getErrorMessage(error))
   }
 }
 
