@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container q-mb-md q-pa-md">
+    <div class="container q-pa-md">
       <a href="https://github.com/khusainovrm/pwa-app">
         <svg
           height="32"

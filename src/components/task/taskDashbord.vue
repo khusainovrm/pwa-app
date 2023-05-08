@@ -1,6 +1,9 @@
 <template>
   <div class="task-dashboard">
     <h5 class="q-mb-md q-px-md">Задачи 😀</h5>
+    <p v-if="$q.platform.is.mobile" class="q-px-md">
+      нажмите и удерживайте для перетаскивания задачи
+    </p>
 
     <transition name="fade" mode="out-in">
       <div v-if="loading" class="loading">
@@ -8,11 +11,11 @@
       </div>
       <div v-else-if="!tasks?.length">
         <p class="q-px-md">Создайте задачу</p>
-        <q-btn class="q-mb-md q-mx-md" label="+" color="primary" @click="showCreateDialog = true" />
+        <q-btn class="q-mx-md" label="+" color="primary" @click="showCreateDialog = true" />
       </div>
       <div v-else>
         <q-btn class="q-mb-md q-mx-md" label="+" color="primary" @click="showCreateDialog = true" />
-        <div class="task-list">
+        <div class="task-list" :class="{ mobile: $q.platform.is.mobile }">
           <div class="task-list__inner-container">
             <div class="task-list-column" v-for="column in columns" :key="column.name">
               <h5>{{ column.name }}</h5>
@@ -181,6 +184,9 @@ onMounted(async () => {
 .task-list {
   overflow: hidden;
   height: calc(100vh - 192px);
+  &.mobile {
+    height: calc(100vh - 236px);
+  }
   &-column {
     overflow: auto;
     display: flex;
