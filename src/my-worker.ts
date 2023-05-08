@@ -36,6 +36,7 @@ self.onmessage = async (e) => {
               const tasksCache = await allTaskCache.keys()
               tasksCache.map((request) => {
                 console.log('request', request)
+                console.log('request', request.url)
                 return
               })
             })
