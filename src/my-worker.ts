@@ -21,6 +21,8 @@ self.onmessage = async (e) => {
             .map(async (name) => {
               const taskCache = await caches.open(name)
               console.log('taskCache', taskCache)
+              // @ts-ignore
+              taskCache[3].then((response: any) => console.log('response', response))
               // const tasksCache = await oldRequest.keys()
               // console.log('tasksCache', tasksCache)
               // tasksCache.map(request => {
