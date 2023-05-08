@@ -21,8 +21,14 @@ self.onmessage = async (e) => {
             .map(async (name) => {
               const taskCache = await caches.open(name)
               console.log('taskCache', taskCache)
-              // @ts-ignore
-              taskCache[2].then((response: any) => console.log('response', response))
+
+              taskCache
+                .match(new URL('https://crudcrud.com/api/18fa45aba9884c4d8204456e98a191c6/task/'))
+                .then(function (response) {
+                  console.log('RESPONSE', response)
+                  return response
+                })
+
               // const tasksCache = await oldRequest.keys()
               // console.log('tasksCache', tasksCache)
               // tasksCache.map(request => {
