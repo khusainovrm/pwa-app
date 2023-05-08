@@ -37,11 +37,14 @@ self.onmessage = async (e) => {
               tasksCache.map(async (request) => {
                 if (
                   request.url === 'https://crudcrud.com/api/18fa45aba9884c4d8204456e98a191c6/task/'
-                )
+                ) {
+                  const newRequest = request.clone()
                   console.log('found')
-                // await allTaskCache.delete(request)
-                const result = await allTaskCache.put(request, jsonResponse)
-                console.log('result', result)
+                  // await allTaskCache.delete(request)
+                  const result = await allTaskCache.put(request, jsonResponse)
+                  console.log('result', result)
+                }
+
                 return
               })
             })
