@@ -23,7 +23,7 @@ self.onmessage = async (e) => {
               console.log('taskCache', allTaskCache)
 
               const response = allTaskCache.match(
-                new URL('https://crudcrud.com/api/18fa45aba9884c4d8204456e98a191c6/task/')
+                new URL('https://crudcrud.com/api/05d3f917683f47f9b6261719877f463e/task/')
               )
               console.log('response', response)
               const jsonResponse = new Response(e.data.taskArguments, {
