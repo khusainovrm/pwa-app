@@ -2,7 +2,7 @@
   <q-dialog v-model="needRefresh" persistent>
     <q-card>
       <q-card-section class="row items-center">
-        <q-avatar icon="signal_wifi_off" color="primary" text-color="white" />
+        <q-avatar icon="security_update" color="primary" text-color="white" />
         <span class="q-ml-sm">Доступно новое обновление</span>
       </q-card-section>
 
