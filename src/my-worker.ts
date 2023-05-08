@@ -39,7 +39,7 @@ self.onmessage = async (e) => {
                   request.url === 'https://crudcrud.com/api/05d3f917683f47f9b6261719877f463e/task/'
                 ) {
                   console.log('request before', request)
-                  await allTaskCache.put(request, jsonResponse)
+                  await allTaskCache.put(request.clone(), jsonResponse)
                   console.log('request after', await allTaskCache.keys().then(console.log))
                 } else {
                   await allTaskCache.delete(request)
