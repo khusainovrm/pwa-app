@@ -41,14 +41,11 @@ export const formatErr = (err: any, options: { prefix?: string } = {}) => {
   } else if (err.response) {
     error = err.response
   } else if (!err.response && err.message === 'Network Error' && !err.status) {
-    if (err.description) {
-      error.description = err.description
-    } else {
-      error = err
-      error.description = isPrefix
-        ? options.prefix + ': нет соединения с интернетом!'
-        : 'Нет соединения с интернетом!'
-    }
+    alert(err.reponse)
+    error = err
+    error.description = isPrefix
+      ? options.prefix + ': нет соединения с интернетом!'
+      : 'Нет соединения с интернетом!'
   }
   if (err.response !== undefined && err.response.status) {
     error.status = err.response.status
