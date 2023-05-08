@@ -19,9 +19,13 @@ self.onmessage = async (e) => {
           cacheNames
             .filter((name) => name === tasksCacheName)
             .map(async (name) => {
-              const oldRequest = await caches.open(name)
-              const tasksCache = await oldRequest.keys()
-              console.log('tasksCache', tasksCache)
+              const taskCache = await caches.open(name)
+              console.log('taskCache', taskCache)
+              // const tasksCache = await oldRequest.keys()
+              // console.log('tasksCache', tasksCache)
+              // tasksCache.map(request => {
+              //   return
+              // })
             })
         )
       } catch (e) {
