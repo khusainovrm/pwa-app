@@ -1,5 +1,5 @@
 import queryString from 'query-string'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import type { AxiosResponse } from 'axios'
 
 const DEFAULT_ERROR_TEXT = 'Произошла ошибка...'
@@ -41,7 +41,7 @@ export const formatErr = (err: any, options: { prefix?: string } = {}) => {
   } else if (err.response) {
     error = err.response
   } else if (!err.response && err.message === 'Network Error' && !err.status) {
-    alert(err)
+    alert(err.response)
     error = err
     error.description = isPrefix
       ? options.prefix + ': нет соединения с интернетом!'
