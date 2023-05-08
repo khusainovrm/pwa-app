@@ -41,7 +41,7 @@ export const formatErr = (err: any, options: { prefix?: string } = {}) => {
   } else if (err.response) {
     error = err.response
   } else if (!err.response && err.message === 'Network Error' && !err.status) {
-    alert(err.reponse)
+    alert(err)
     error = err
     error.description = isPrefix
       ? options.prefix + ': нет соединения с интернетом!'
