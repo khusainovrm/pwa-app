@@ -19,21 +19,25 @@ self.onmessage = async (e) => {
           cacheNames
             .filter((name) => name === tasksCacheName)
             .map(async (name) => {
-              const taskCache = await caches.open(name)
-              console.log('taskCache', taskCache)
+              const allTaskCache = await caches.open(name)
+              console.log('taskCache', allTaskCache)
 
-              taskCache
-                .match(new URL('https://crudcrud.com/api/18fa45aba9884c4d8204456e98a191c6/task/'))
-                .then(function (response) {
-                  console.log('RESPONSE', response)
-                  return response
-                })
+              const response = allTaskCache.match(
+                new URL('https://crudcrud.com/api/18fa45aba9884c4d8204456e98a191c6/task/')
+              )
+              console.log('response', response)
+              const jsonResponse = new Response(e.data.taskArguments, {
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              })
+              console.log('jsonResponse', jsonResponse)
 
-              // const tasksCache = await oldRequest.keys()
-              // console.log('tasksCache', tasksCache)
-              // tasksCache.map(request => {
-              //   return
-              // })
+              const tasksCache = await allTaskCache.keys()
+              tasksCache.map((request) => {
+                console.log('request', request)
+                return
+              })
             })
         )
       } catch (e) {
