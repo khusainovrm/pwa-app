@@ -12,7 +12,6 @@ self.onmessage = async (e) => {
     e.data.hasOwnProperty('taskArguments')
   ) {
     if (e.data.taskType === 'save-task') {
-      console.log('save')
       try {
         const cacheNames = await caches.keys()
         console.log('cacheNames', cacheNames)

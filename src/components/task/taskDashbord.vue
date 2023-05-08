@@ -180,7 +180,7 @@ onMounted(async () => {
 }
 .task-list {
   overflow: hidden;
-  height: calc(100vh - 172px);
+  height: calc(100vh - 192px);
   &-column {
     overflow: auto;
     display: flex;

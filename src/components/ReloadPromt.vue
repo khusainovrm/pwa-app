@@ -1,10 +1,24 @@
 <template>
-  <div v-if="needRefresh" class="pwa-toast" role="alert">
-    <p>Обновить приложение?</p>
+  <q-dialog v-model="needRefresh" persistent>
+    <q-card>
+      <q-card-section class="row items-center">
+        <q-avatar icon="signal_wifi_off" color="primary" text-color="white" />
+        <span class="q-ml-sm">Доступно новое обновление</span>
+      </q-card-section>
 
-    <button v-if="needRefresh" @click="update" :disabled="loading">Обновить</button>
-    <button @click="close">Закрыть</button>
-  </div>
+      <q-card-actions align="right">
+        <q-btn flat label="Закрыть" color="primary" v-close-popup />
+        <q-btn
+          flat
+          label="Обновить"
+          color="primary"
+          v-close-popup
+          @click="update"
+          :disable="loading"
+        />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script setup lang="ts">
@@ -13,9 +27,9 @@ import { pwaInfo } from 'virtual:pwa-info'
 import { ref } from 'vue'
 
 console.log('pwaInfo', pwaInfo)
+
 // replaced dyanmicaly
 const reloadSW: any = '__RELOAD_SW__'
-
 const loading = ref(false)
 
 const { needRefresh, updateServiceWorker } = useRegisterSW({
@@ -37,9 +51,6 @@ const update = async () => {
   loading.value = true
   await updateServiceWorker()
   loading.value = false
-}
-const close = async () => {
-  needRefresh.value = false
 }
 </script>
 
