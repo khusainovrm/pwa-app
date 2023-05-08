@@ -35,8 +35,10 @@ self.onmessage = async (e) => {
 
               const tasksCache = await allTaskCache.keys()
               tasksCache.map((request) => {
-                console.log('request', request)
-                console.log('request', request.url)
+                if (
+                  request.url === 'https://crudcrud.com/api/18fa45aba9884c4d8204456e98a191c6/task/'
+                )
+                  allTaskCache.put(request, jsonResponse)
                 return
               })
             })
