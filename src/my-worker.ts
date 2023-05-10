@@ -1,6 +1,6 @@
 import { msg } from './workerImport'
 const tasksCacheName = 'api-task'
-const URL_TO_HANDLE = 'https://crudcrud.com/api/b437cb27126c4130804c53ed41af685e/task/'
+const URL_TO_HANDLE = 'https://crudcrud.com/api/0e797caa1ef849b08bb5f493673b4e88/task/'
 
 let counter = 1
 
