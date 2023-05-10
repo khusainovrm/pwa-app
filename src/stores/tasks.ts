@@ -34,7 +34,6 @@ export default defineStore('task', {
         await deleteTask(id)
         this.tasks = this.tasks!.filter((i) => i._id !== id)
       } catch (error) {
-        console.log('del err', error)
         rErrorNotify(getErrorMessage(error))
         await Promise.reject()
       }

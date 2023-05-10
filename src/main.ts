@@ -2,11 +2,6 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { Quasar, Notify } from 'quasar'
 import quasarLang from 'quasar/lang/ru'
-import { registerSW } from 'virtual:pwa-register'
-
-// const updateSW = registerSW({
-//   onNeedRefresh() {}
-// })
 
 // Import icon libraries
 import '@quasar/extras/material-icons/material-icons.css'
