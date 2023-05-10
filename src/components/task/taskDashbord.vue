@@ -124,6 +124,7 @@ const createTask = async () => {
   } finally {
     loadingCreation.value = false
     showCreateDialog.value = false
+    taskName.value = ''
   }
 }
 const removeTask = async (id: number) => {

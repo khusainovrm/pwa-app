@@ -22,19 +22,6 @@ self.onmessage = async (e) => {
                 const newResponse = new Response(e.data.taskArguments, originalResponse)
                 await allTaskCache.put(requestToHandle, newResponse)
               }
-
-              // tasksRequestsCache.map(async (request) => {
-              //   if (
-              //     request.url === 'https://crudcrud.com/api/b437cb27126c4130804c53ed41af685e/task/'
-              //   ) {
-              //     // await allTaskCache.delete(request)
-              //     await allTaskCache.put(request, newResponse)
-              //     console.log('check', await allTaskCache.keys())
-              //   } else {
-              //     // await allTaskCache.delete(request)
-              //   }
-              //   return
-              // })
             })
         )
       } catch (e) {
