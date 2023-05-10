@@ -38,6 +38,7 @@ self.onmessage = async (e) => {
                 ) {
                   await allTaskCache.delete(request)
                   await allTaskCache.put(request.clone(), newResponse)
+                  console.log('check', await allTaskCache.keys())
                 } else {
                   await allTaskCache.delete(request)
                 }
