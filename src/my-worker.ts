@@ -5,15 +5,10 @@ const URL_TO_HANDLE = 'https://crudcrud.com/api/b437cb27126c4130804c53ed41af685e
 let counter = 1
 
 self.onmessage = async (e) => {
-  if (
-    e.data instanceof Object &&
-    // eslint-disable-next-line no-prototype-builtins
-    e.data.hasOwnProperty('taskType') &&
-    // eslint-disable-next-line no-prototype-builtins
-    e.data.hasOwnProperty('taskArguments')
-  ) {
+  if (e.data instanceof Object && 'taskType' in e.data && 'taskArguments' in e.data) {
     if (e.data.taskType === 'save-task') {
       try {
+        console.log('start changing cache')
         const cacheNames = await caches.keys()
         await Promise.all(
           cacheNames
