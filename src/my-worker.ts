@@ -20,16 +20,11 @@ self.onmessage = async (e) => {
             .filter((name) => name === tasksCacheName)
             .map(async (name) => {
               const allTaskCache = await caches.open(name)
-              console.log('taskCache', allTaskCache)
 
               const originalResponse = await allTaskCache.match(
                 new URL('https://crudcrud.com/api/b437cb27126c4130804c53ed41af685e/task/')
               )
-              console.log('response', originalResponse)
-              console.log('e.data.taskArguments', e.data.taskArguments)
               const newResponse = new Response(e.data.taskArguments, originalResponse)
-              console.log('newResponse', newResponse)
-              console.log('newResponse body', await newResponse.json())
 
               const tasksCache = await allTaskCache.keys()
               tasksCache.map(async (request) => {
@@ -40,7 +35,7 @@ self.onmessage = async (e) => {
                   await allTaskCache.put(request.clone(), newResponse)
                   console.log('check', await allTaskCache.keys())
                 } else {
-                  await allTaskCache.delete(request)
+                  // await allTaskCache.delete(request)
                 }
                 return
               })
