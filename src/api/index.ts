@@ -1,7 +1,6 @@
 import queryString from 'query-string'
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 import type { AxiosResponse } from 'axios'
-import { useQuasar } from 'quasar'
 
 const DEFAULT_ERROR_TEXT = 'Произошла ошибка...'
 
@@ -29,7 +28,6 @@ export const formatRes = (res: AxiosResponse) => Promise.resolve(res.data)
 
 export const formatErr = (err: any, options: { prefix?: string } = {}) => {
   const isPrefix = !!options.prefix
-  const $q = useQuasar()
 
   let error: any = new Error()
   if (err.response && err.response.data && err.response.data.error) {
@@ -44,13 +42,7 @@ export const formatErr = (err: any, options: { prefix?: string } = {}) => {
     error = err.response
   } else if (!err.response && err.message === 'Network Error' && !err.status) {
     error = err
-    if ($q.platform.is.mobile) {
-      error.description = isPrefix ? options.prefix + `: ${DEFAULT_ERROR_TEXT}` : DEFAULT_ERROR_TEXT
-    } else {
-      error.description = isPrefix
-        ? options.prefix + ': нет соединения с интернетом!'
-        : 'Нет соединения с интернетом!'
-    }
+    error.description = isPrefix ? options.prefix + ': ошибка сети!' : 'Ошибка сети!'
   }
   if (err.response !== undefined && err.response.status) {
     error.status = err.response.status
