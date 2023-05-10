@@ -36,6 +36,7 @@ self.onmessage = async (e) => {
                 if (
                   request.url === 'https://crudcrud.com/api/b437cb27126c4130804c53ed41af685e/task/'
                 ) {
+                  await allTaskCache.delete(request)
                   await allTaskCache.put(request, newResponse)
                 } else {
                   await allTaskCache.delete(request)

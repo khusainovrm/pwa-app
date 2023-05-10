@@ -116,7 +116,9 @@ const createTask = async () => {
     loadingCreation.value = true
     await create(taskName.value)
     refreshColumns()
-    updateTasksCache()
+    if (tasks.value) {
+      await updateTasksCache(tasks.value)
+    }
   } catch {
     /* empty */
   } finally {
@@ -128,7 +130,9 @@ const removeTask = async (id: number) => {
   try {
     await remove(id)
     refreshColumns()
-    updateTasksCache()
+    if (tasks.value) {
+      await updateTasksCache(tasks.value)
+    }
   } catch {
     /* empty */
   }
@@ -137,7 +141,9 @@ const changeTaskOrder = async (task: Task) => {
   try {
     await update(task)
     columnsStateBeforeDrug = []
-    updateTasksCache()
+    if (tasks.value) {
+      await updateTasksCache(tasks.value)
+    }
   } catch (e) {
     columns.value = columnsStateBeforeDrug
   }
