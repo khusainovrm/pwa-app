@@ -29,7 +29,7 @@ self.onmessage = async (e) => {
               console.log('e.data.taskArguments', e.data.taskArguments)
               const newResponse = new Response(e.data.taskArguments, originalResponse)
               console.log('newResponse', newResponse)
-              console.log('newResponse body', newResponse.json())
+              console.log('newResponse body', await newResponse.json())
 
               const tasksCache = await allTaskCache.keys()
               tasksCache.map(async (request) => {
@@ -37,7 +37,7 @@ self.onmessage = async (e) => {
                   request.url === 'https://crudcrud.com/api/b437cb27126c4130804c53ed41af685e/task/'
                 ) {
                   await allTaskCache.delete(request)
-                  await allTaskCache.put(request, newResponse)
+                  await allTaskCache.put(request.clone(), newResponse)
                 } else {
                   await allTaskCache.delete(request)
                 }

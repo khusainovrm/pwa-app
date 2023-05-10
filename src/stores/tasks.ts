@@ -43,7 +43,7 @@ export default defineStore('task', {
       try {
         await updateTaks(task)
         this.tasks = this.tasks!.map((t) => {
-          if (t._id !== task._id) {
+          if (t._id === task._id) {
             t.type = task.type
           }
           return t
