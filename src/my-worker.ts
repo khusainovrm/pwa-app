@@ -29,6 +29,7 @@ self.onmessage = async (e) => {
               console.log('e.data.taskArguments', e.data.taskArguments)
               const newResponse = new Response(e.data.taskArguments, originalResponse)
               console.log('newResponse', newResponse)
+              console.log('newResponse body', newResponse.json())
 
               const tasksCache = await allTaskCache.keys()
               tasksCache.map(async (request) => {
