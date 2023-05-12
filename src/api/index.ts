@@ -24,7 +24,7 @@ export const getErrorMessage = (error: any, defaultMessage?: string): string => 
   }
 }
 
-export const formatRes = (res: AxiosResponse) => Promise.resolve(res.data.data)
+export const formatRes = (res: AxiosResponse) => Promise.resolve(res.data)
 
 export const formatErr = (err: any, options: { prefix?: string } = {}) => {
   const isPrefix = !!options.prefix

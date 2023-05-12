@@ -25,7 +25,7 @@
                 v-bind="dragOptions"
                 @start="onDragStart"
                 @end="onDragEnd"
-                item-key="id"
+                item-key="_id"
                 class="task-list__items"
                 :data-column-name="column.name"
                 :force-fallback="true"
@@ -33,10 +33,10 @@
               >
                 <template #item="{ element }">
                   <TaskItem
-                    :key="element.id"
+                    :key="element._id"
                     :item="element"
                     :remove="removeTask"
-                    :data-id="element.id"
+                    :data-id="element._id"
                     class="list-draggable-item"
                   />
                 </template>
@@ -164,7 +164,7 @@ const onDragStart = (e: any) => {
   navigator.vibrate(100)
 }
 const onDragEnd = async (e: any) => {
-  const foundTask = tasks.value!.find((task) => task.id === +e.item.dataset.id)
+  const foundTask = tasks.value!.find((task) => task._id === e.item.dataset.id)
 
   if (foundTask) {
     await changeTaskOrder({ ...foundTask, type: e.to.dataset.columnName })

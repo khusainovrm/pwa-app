@@ -30,7 +30,7 @@ const loading = ref(false)
 
 const removeTask = async () => {
   loading.value = true
-  await props.remove(props.item.id)
+  await props.remove(props.item._id)
   loading.value = false
 }
 </script>

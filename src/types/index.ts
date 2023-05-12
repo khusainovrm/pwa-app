@@ -7,7 +7,7 @@ export interface Photo {
 }
 
 export interface Task {
-  id: number
+  _id: number
   name: string
   type: 'new' | 'doing' | 'done'
 }
