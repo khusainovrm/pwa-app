@@ -32,7 +32,7 @@ export default defineStore('task', {
     async remove(id: number) {
       try {
         await deleteTask(id)
-        this.tasks = this.tasks!.filter((i) => i._id !== id)
+        this.tasks = this.tasks!.filter((i) => i.id !== id)
       } catch (error) {
         rErrorNotify(getErrorMessage(error))
         await Promise.reject()
@@ -42,7 +42,7 @@ export default defineStore('task', {
       try {
         await updateTaks(task)
         this.tasks = this.tasks!.map((t) => {
-          if (t._id === task._id) {
+          if (t.id === task.id) {
             t.type = task.type
           }
           return t
