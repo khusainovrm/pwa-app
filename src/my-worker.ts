@@ -8,7 +8,6 @@ self.onmessage = async (e) => {
   if (e.data instanceof Object && 'taskType' in e.data && 'taskArguments' in e.data) {
     if (e.data.taskType === 'save-task') {
       try {
-        console.log('start changing cache')
         const cacheNames = await caches.keys()
         await Promise.all(
           cacheNames
