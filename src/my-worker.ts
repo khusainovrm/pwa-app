@@ -19,7 +19,7 @@ self.onmessage = async (e) => {
               const originalResponse = await allTaskCache.match(new URL(URL_TO_HANDLE))
               if (requestToHandle && originalResponse) {
                 const newResponse = new Response(
-                  JSON.stringify({ data: e.data.taskArguments }),
+                  { data: e.data.taskArguments } as any,
                   originalResponse
                 )
                 await allTaskCache.put(requestToHandle, newResponse)
