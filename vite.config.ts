@@ -48,7 +48,6 @@ const pwaOptions: Partial<VitePWAOptions> = {
     runtimeCaching: [
       {
         urlPattern: ({ url }) => {
-          console.log('url', url)
           return url.pathname.startsWith(`/v1`)
         },
         method: 'GET',

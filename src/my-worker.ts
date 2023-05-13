@@ -1,6 +1,6 @@
 import { msg } from './workerImport'
 const tasksCacheName = 'api-task'
-const URL_TO_HANDLE = 'https://my-api-server.ru/v1/tasks'
+const URL_TO_HANDLE = 'https://my-api-server.ru/v1/tasks/'
 
 let counter = 1
 
