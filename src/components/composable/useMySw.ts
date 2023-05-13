@@ -7,7 +7,7 @@ export function useMySw() {
   const updateTasksCache = async (tasks: Task[]) => {
     worker.postMessage({
       taskType: 'save-task',
-      taskArguments: JSON.stringify(tasks)
+      taskArguments: JSON.stringify({ data: tasks })
     })
   }
 

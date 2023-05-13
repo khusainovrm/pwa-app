@@ -18,10 +18,7 @@ self.onmessage = async (e) => {
               const requestToHandle = tasksRequestsCache.find((r) => r.url === URL_TO_HANDLE)
               const originalResponse = await allTaskCache.match(new URL(URL_TO_HANDLE))
               if (requestToHandle && originalResponse) {
-                const newResponse = new Response(
-                  { data: e.data.taskArguments } as any,
-                  originalResponse
-                )
+                const newResponse = new Response(e.data.taskArguments, originalResponse)
                 await allTaskCache.put(requestToHandle, newResponse)
               }
             })
