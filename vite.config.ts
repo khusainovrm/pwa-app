@@ -47,7 +47,10 @@ const pwaOptions: Partial<VitePWAOptions> = {
     globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
     runtimeCaching: [
       {
-        urlPattern: /\/v1\/tasks/,
+        urlPattern: ({ url }) => {
+          console.log('url', url)
+          return url.pathname.startsWith(`/v1`)
+        },
         method: 'GET',
         handler: 'NetworkFirst',
         options: {
