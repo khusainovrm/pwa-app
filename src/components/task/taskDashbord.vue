@@ -1,6 +1,6 @@
 <template>
   <div class="task-dashboard">
-    <h5 class="q-mb-md q-px-md">Задачи 😀</h5>
+    <h5 class="q-mb-md q-px-md">Задачи 💊</h5>
     <p v-if="$q.platform.is.mobile" class="q-px-md">
       нажмите и удерживайте для перетаскивания задачи
     </p>
