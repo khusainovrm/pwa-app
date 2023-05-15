@@ -1,6 +1,8 @@
 {
   "name": "pwa-app",
-  "version": "0.0.0",
+  "productName": "PWA APP Vite",
+  "description": "PWA APP",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "cross-env RELOAD_SW=true vite",

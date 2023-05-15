@@ -2,19 +2,21 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
-import type { VitePWAOptions } from 'vite-plugin-pwa'
+import type { VitePWAOptions, ManifestOptions } from 'vite-plugin-pwa'
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 import replace from '@rollup/plugin-replace'
 import type { RollupReplaceOptions } from '@rollup/plugin-replace'
+// @ts-ignore
+import pkg from './package.json'
 
 const pwaOptions: Partial<VitePWAOptions> = {
   mode: 'development',
   base: '/',
   includeAssets: ['favicon.svg'],
   manifest: {
-    name: 'PWA App',
-    short_name: 'PWA App',
-    description: 'My Awesome PWA App description',
+    name: pkg.name,
+    short_name: pkg.productName,
+    description: pkg.description,
     background_color: '#ffffff',
     theme_color: '#027be3',
     icons: [
@@ -61,6 +63,14 @@ const pwaOptions: Partial<VitePWAOptions> = {
       }
     ]
   }
+}
+
+if (process.env.MANIFEST_INJECT === 'true') {
+  pwaOptions.srcDir = 'src'
+  pwaOptions.filename = 'prompt-sw.ts'
+  pwaOptions.strategies = 'injectManifest'
+  ;(pwaOptions.manifest as Partial<ManifestOptions>).name = `${pkg.name} Inject Manifest`
+  ;(pwaOptions.manifest as Partial<ManifestOptions>).short_name = `${pkg.name} - PWA Inject`
 }
 
 const today = new Date()

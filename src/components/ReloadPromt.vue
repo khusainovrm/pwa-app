@@ -36,6 +36,8 @@ const loading = ref(false)
 const { needRefresh, updateServiceWorker } = useRegisterSW({
   // immediate: true,
   onRegisteredSW(swUrl, r) {
+    console.log('swUrl', swUrl)
+    console.log('r', r)
     if (reloadSW === 'true') {
       r &&
         setInterval(async () => {
@@ -45,6 +47,33 @@ const { needRefresh, updateServiceWorker } = useRegisterSW({
     } else {
       console.log(`SW Registered: ${r}`)
     }
+
+    const requestNotificationPermission = async () => {
+      const permission = await window.Notification.requestPermission()
+      // value of permission can be 'granted', 'default', 'denied'
+      // granted: user has accepted the request
+      // default: user has dismissed the notification permission popup by clicking on x
+      // denied: user has denied the request.
+      if (permission !== 'granted') {
+        throw new Error('Permission not granted for Notification')
+      }
+      return permission
+    }
+    const showLocalNotification = (
+      title: string,
+      body: string,
+      swRegistration: ServiceWorkerRegistration | undefined
+    ) => {
+      const options = {
+        body
+        // here you can add more properties like icon, image, vibrate, etc.
+      }
+      console.log('r', r)
+      swRegistration?.showNotification(title, options)
+    }
+
+    const permission = requestNotificationPermission().then(console.log).catch(console.log)
+    // showLocalNotification('This is title', 'this is the message', r)
   },
   onOfflineReady() {
     rInfoNotify('Ready to work offline')
