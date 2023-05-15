@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container q-pa-md">
-      <a href="https://github.com/khusainovrm/pwa-app">
+      <a href="https://github.com/khusainovrm/qusar-pwa">
         <svg
           height="32"
           aria-hidden="true"
