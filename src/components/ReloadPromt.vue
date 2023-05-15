@@ -25,6 +25,7 @@
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { pwaInfo } from 'virtual:pwa-info'
 import { ref } from 'vue'
+import { rInfoNotify } from '@/utils/notify'
 
 console.log('pwaInfo', pwaInfo)
 
@@ -44,10 +45,12 @@ const { needRefresh, updateServiceWorker } = useRegisterSW({
     } else {
       console.log(`SW Registered: ${r}`)
     }
+  },
+  onOfflineReady() {
+    rInfoNotify('Ready to work offline')
   }
 })
 const update = async () => {
-  console.log('start updating')
   loading.value = true
   await updateServiceWorker()
   loading.value = false
