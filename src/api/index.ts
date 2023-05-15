@@ -42,7 +42,7 @@ export const formatErr = (err: any, options: { prefix?: string } = {}) => {
     error = err.response
   } else if (!err.response && err.message === 'Network Error' && !err.status) {
     error = err
-    error.description = isPrefix ? options.prefix + ': ошибка сети!' : 'Ошибка сети!'
+    error.description = isPrefix ? options.prefix + ': нет интернета!' : 'Нет интернета'
   }
   if (err.response !== undefined && err.response.status) {
     error.status = err.response.status
