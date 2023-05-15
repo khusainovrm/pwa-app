@@ -1,8 +1,5 @@
-import { msg } from './workerImport'
 const tasksCacheName = 'api-task'
 const URL_TO_HANDLE = 'https://my-api-server.ru/v1/tasks/'
-
-let counter = 1
 
 self.onmessage = async (e) => {
   if (e.data instanceof Object && 'taskType' in e.data && 'taskArguments' in e.data) {
@@ -27,10 +24,7 @@ self.onmessage = async (e) => {
         console.log(e)
       }
     }
-  } else if (e.data === 'ping') {
-    self.postMessage({ msg: `${msg} - ${counter++}` })
-  } else if (e.data === 'clear') {
-    counter = 1
-    self.postMessage({ msg: null })
   }
 }
+
+export {}
